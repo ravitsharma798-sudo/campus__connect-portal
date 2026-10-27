@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Registration - CampusConnect</title>
+  
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Shared Navbar Target -->
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main-content" class="main-content">
+    <div class="container" style="max-width: 800px; padding-top: 2rem; padding-bottom: 4rem;">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" style="margin-bottom: 1.25rem;">
+        <ol style="list-style: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+          <li><a href="index.html" style="color: var(--primary);">Home</a></li>
+          <li>›</li>
+          <li><a href="events.html" style="color: var(--primary);">Events</a></li>
+          <li>›</li>
+          <li style="color: var(--text-main); font-weight: 600;">Event Registration</li>
+        </ol>
+      </nav>
+
+      <!-- Event Summary Card -->
+      <div id="reg-event-summary" class="form-card" style="margin-bottom: 1.75rem; padding: 1.5rem;">
+        <div style="color: var(--text-muted); font-size: 0.9rem;">Loading event details...</div>
+      </div>
+
+      <!-- Registration Form Card -->
+      <div class="form-card">
+        <div style="margin-bottom: 1.75rem;">
+          <h1 style="font-family: var(--font-heading); font-size: 1.65rem; font-weight: 800; color: var(--text-main);">
+            Student Registration Form
+          </h1>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.25rem;">
+            Please ensure your 8-digit student registration number is accurate. Your digital entry pass and QR code will be generated upon confirmation.
+          </p>
+        </div>
+
+        <form id="event-registration-form" novalidate>
+          <div class="form-grid">
+            <!-- Full Name -->
+            <div class="form-group col-span-2">
+              <label for="studentName" class="form-label">
+                Full Name <span class="form-hint">(As registered in university records)</span>
+              </label>
+              <input 
+                type="text" 
+                id="studentName" 
+                name="studentName" 
+                class="form-control" 
+                placeholder="e.g. Alex Rivera" 
+                required
+                autocomplete="name"
+              >
+              <span class="form-error-msg"></span>
+            </div>
+
+            <!-- Registration Number (8 Digits) -->
+            <div class="form-group">
+              <label for="regNumber" class="form-label">
+                Student Reg. Number <span class="form-hint">(8 digits)</span>
+              </label>
+              <input 
+                type="text" 
+                id="regNumber" 
+                name="regNumber" 
+                class="form-control" 
+                placeholder="e.g. 20241088" 
+                maxlength="8" 
+                pattern="\d{8}"
+                required
+              >
+              <span class="form-error-msg"></span>
+            </div>
+
+            <!-- Academic Email -->
+            <div class="form-group">
+              <label for="email" class="form-label">
+                Academic Email Address
+              </label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                class="form-control" 
+                placeholder="e.g. student@campus.edu" 
+                required
+                autocomplete="email"
+              >
+              <span class="form-error-msg"></span>
+            </div>
+
+            <!-- Phone Number (10 Digits) -->
+            <div class="form-group">
+              <label for="phone" class="form-label">
+                Phone Number <span class="form-hint">(10 digits)</span>
+              </label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                class="form-control" 
+                placeholder="e.g. 9876543210" 
+                maxlength="10"
+                required
+                autocomplete="tel"
+              >
+              <span class="form-error-msg"></span>
+            </div>
+
+            <!-- Department -->
+            <div class="form-group">
+              <label for="department" class="form-label">Academic Department</label>
+              <select id="department" name="department" class="form-control" required>
+                <option value="">Select Department...</option>
+                <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Electronics & Communication">Electronics & Communication</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Civil Engineering">Civil Engineering</option>
+                <option value="Management Studies">Management Studies</option>
+                <option value="Biotechnology">Biotechnology</option>
+                <option value="Design & Architecture">Design & Architecture</option>
+              </select>
+              <span class="form-error-msg"></span>
+            </div>
+
+            <!-- Year of Study -->
+            <div class="form-group col-span-2">
+              <label for="year" class="form-label">Current Academic Year</label>
+              <select id="year" name="year" class="form-control" required>
+                <option value="">Select Year of Study...</option>
+                <option value="1st Year">1st Year (Freshman)</option>
+                <option value="2nd Year">2nd Year (Sophomore)</option>
+                <option value="3rd Year">3rd Year (Junior)</option>
+                <option value="4th Year">4th Year (Senior)</option>
+                <option value="Post-Graduate / Masters">Post-Graduate / Masters</option>
+              </select>
+              <span class="form-error-msg"></span>
+            </div>
+          </div>
+
+          <!-- University Code of Conduct Notice -->
+          <div style="margin: 1.5rem 0; padding: 1rem; background: var(--bg-alt); border-radius: var(--radius-md); font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+            🔒 <strong>University Registration Policy:</strong> Only one confirmed ticket is permitted per student registration number for this event. Please cancel your seat from "My Registrations" if you can no longer attend so another peer can take your place.
+          </div>
+
+          <!-- Submit Buttons -->
+          <div style="display: flex; align-items: center; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+            <a href="events.html" class="btn btn-outline">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-lg">
+              Confirm Registration →
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Shared Footer Target -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/registration.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar('events');
+      renderFooter();
+      initRegistrationPage();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In / Register - CampusConnect</title>
+  
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Shared Navbar Target -->
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main-content" class="main-content">
+    <div class="auth-split-wrapper">
+      <!-- Left Visual Panel -->
+      <div class="auth-visual-side">
+        <div>
+          <a href="index.html" class="brand-logo" style="color: #fff; margin-bottom: 2rem;">
+            <div class="brand-icon" style="background: rgba(255, 255, 255, 0.2); box-shadow: none;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+            </div>
+            <span>Campus<span style="color: var(--accent);">Connect</span></span>
+          </a>
+
+          <h1 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.25rem;">
+            Empowering Campus Life & Collegiate Events.
+          </h1>
+          <p style="font-size: 1.05rem; opacity: 0.9; line-height: 1.6; max-width: 440px;">
+            One account for seamless event discovery, instant passes with verification QR codes, and real-time organizer attendee management.
+          </p>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); padding: 1.25rem; border-radius: var(--radius-lg); backdrop-filter: blur(8px);">
+          <div style="font-weight: 700; margin-bottom: 0.25rem;">University Single-Sign-On Emulation</div>
+          <div style="font-size: 0.85rem; opacity: 0.85; line-height: 1.5;">
+            Simulated client-side authentication supporting both Student and Faculty/Admin roles. Switch roles or use one-click demo credentials anytime.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form Panel -->
+      <div class="auth-form-side">
+        <div class="auth-form-box">
+          <!-- Auth Action Tabs -->
+          <div class="auth-tabs">
+            <button id="tab-login" class="auth-tab-btn active" onclick="switchAuthTab('login')">Sign In</button>
+            <button id="tab-signup" class="auth-tab-btn" onclick="switchAuthTab('signup')">Create Account</button>
+          </div>
+
+          <!-- Role Toggle Selector -->
+          <div style="margin-bottom: 0.5rem; font-size: 0.82rem; font-weight: 600; color: var(--text-muted);">
+            SELECT ROLE
+          </div>
+          <div class="role-toggle-group">
+            <button type="button" id="role-btn-student" class="role-radio-btn active" onclick="selectRole('student')">
+              🎓 Student
+            </button>
+            <button type="button" id="role-btn-admin" class="role-radio-btn" onclick="selectRole('admin')">
+              🛡️ Admin / Organizer
+            </button>
+          </div>
+
+          <!-- Redirect Notice Banner -->
+          <div id="auth-reason-banner" style="display: none; background: var(--warning-bg); color: var(--warning-text); padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.82rem; margin-bottom: 1.25rem; border: 1px solid #FCD34D;">
+            ⚠️ Administrative access required. Please sign in as an Admin or Organizer to proceed.
+          </div>
+
+          <!-- ================= SIGN IN FORM ================= -->
+          <form id="login-form">
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label for="login-email" class="form-label">Email Address</label>
+              <input type="email" id="login-email" class="form-control" placeholder="name@campus.edu" required autocomplete="username">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label for="login-password" class="form-label">Password</label>
+              <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full btn-lg" id="login-submit-btn">
+              Sign In to CampusConnect
+            </button>
+          </form>
+
+          <!-- ================= SIGN UP FORM ================= -->
+          <form id="signup-form" style="display: none;">
+            <div class="form-group" style="margin-bottom: 0.85rem;">
+              <label for="signup-name" class="form-label">Full Name</label>
+              <input type="text" id="signup-name" class="form-control" placeholder="e.g. Maya Lin" required>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0.85rem;">
+              <label for="signup-email" class="form-label">University Email</label>
+              <input type="email" id="signup-email" class="form-control" placeholder="maya@campus.edu" required>
+            </div>
+
+            <div id="student-specific-fields">
+              <div class="form-grid" style="margin-bottom: 0.85rem;">
+                <div class="form-group">
+                  <label for="signup-reg" class="form-label">Reg. Number (8 Digits)</label>
+                  <input type="text" id="signup-reg" class="form-control" placeholder="20251100" maxlength="8">
+                </div>
+                <div class="form-group">
+                  <label for="signup-phone" class="form-label">Phone (10 Digits)</label>
+                  <input type="tel" id="signup-phone" class="form-control" placeholder="9876543210" maxlength="10">
+                </div>
+              </div>
+
+              <div class="form-grid" style="margin-bottom: 0.85rem;">
+                <div class="form-group">
+                  <label for="signup-dept" class="form-label">Department</label>
+                  <select id="signup-dept" class="form-control">
+                    <option value="Computer Science & Engineering">Computer Science</option>
+                    <option value="Information Technology">Information Tech</option>
+                    <option value="Electronics & Communication">Electronics</option>
+                    <option value="Mechanical Engineering">Mechanical</option>
+                    <option value="Management Studies">Management</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="signup-year" class="form-label">Year of Study</label>
+                  <select id="signup-year" class="form-control">
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year">4th Year</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label for="signup-password" class="form-label">Create Password</label>
+              <input type="password" id="signup-password" class="form-control" placeholder="At least 6 characters" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full btn-lg">
+              Create My Account
+            </button>
+          </form>
+
+          <!-- Quick Fill Demo Credentials Box -->
+          <div class="demo-credentials-box">
+            <div style="font-weight: 700; margin-bottom: 0.4rem; color: var(--text-main);">
+              🧪 Demo Test Accounts (One-Click Fill)
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <button type="button" onclick="fillDemo('student')" class="btn btn-sm btn-outline" style="flex: 1; font-size: 0.78rem;">
+                Demo Student (Alex)
+              </button>
+              <button type="button" onclick="fillDemo('admin')" class="btn btn-sm btn-outline" style="flex: 1; font-size: 0.78rem;">
+                Demo Admin (Dean Reed)
+              </button>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-light);">
+              Admin: <code>admin@campus.com</code> / <code>admin123</code><br>
+              Student: <code>student@campus.com</code> / <code>student123</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Shared Footer Target -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    let activeRole = 'student';
+    let activeTab = 'login';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar('login');
+      renderFooter();
+
+      // Check URL parameters for redirect reasons
+      const params = new URLSearchParams(window.location.search);
+      const reason = params.get('reason');
+      const banner = document.getElementById('auth-reason-banner');
+
+      if (reason === 'admin_required') {
+        selectRole('admin');
+        if (banner) {
+          banner.style.display = 'block';
+          banner.innerHTML = '🛡️ <strong>Administrative Access Required:</strong> Please sign in with an Admin/Organizer account to access the dashboard.';
+        }
+      } else if (reason === 'login_required') {
+        if (banner) {
+          banner.style.display = 'block';
+          banner.innerHTML = '🔑 Please sign in to view your registrations.';
+        }
+      }
+
+      // Login submission
+      document.getElementById('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const pass = document.getElementById('login-password').value;
+
+        const res = login(email, pass, activeRole);
+        if (!res.success) {
+          showToast(res.message, 'error', 5000);
+          return;
+        }
+
+        showToast(res.message, 'success');
+        const redirect = params.get('redirect');
+
+        setTimeout(() => {
+          if (redirect) {
+            window.location.href = decodeURIComponent(redirect);
+          } else if (res.user.role === 'admin') {
+            window.location.href = 'dashboard.html';
+          } else {
+            window.location.href = 'events.html';
+          }
+        }, 500);
+      });
+
+      // Sign up submission
+      document.getElementById('signup-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const payload = {
+          name: document.getElementById('signup-name').value,
+          email: document.getElementById('signup-email').value,
+          password: document.getElementById('signup-password').value,
+          role: activeRole,
+          regNumber: document.getElementById('signup-reg') ? document.getElementById('signup-reg').value : '',
+          phone: document.getElementById('signup-phone') ? document.getElementById('signup-phone').value : '',
+          department: document.getElementById('signup-dept') ? document.getElementById('signup-dept').value : 'Computer Science',
+          year: document.getElementById('signup-year') ? document.getElementById('signup-year').value : '1st Year'
+        };
+
+        const res = signup(payload);
+        if (!res.success) {
+          showToast(res.message, 'error', 5000);
+          return;
+        }
+
+        showToast(res.message, 'success');
+        setTimeout(() => {
+          if (res.user.role === 'admin') {
+            window.location.href = 'dashboard.html';
+          } else {
+            window.location.href = 'events.html';
+          }
+        }, 600);
+      });
+    });
+
+    function selectRole(role) {
+      activeRole = role;
+      document.getElementById('role-btn-student').classList.toggle('active', role === 'student');
+      document.getElementById('role-btn-admin').classList.toggle('active', role === 'admin');
+
+      const studentFields = document.getElementById('student-specific-fields');
+      if (studentFields) {
+        studentFields.style.display = role === 'student' ? 'block' : 'none';
+      }
+    }
+
+    function switchAuthTab(tab) {
+      activeTab = tab;
+      document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+      document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+      document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+      document.getElementById('signup-form').style.display = tab === 'signup' ? 'block' : 'none';
+    }
+
+    function fillDemo(role) {
+      switchAuthTab('login');
+      selectRole(role);
+      if (role === 'admin') {
+        document.getElementById('login-email').value = 'admin@campus.com';
+        document.getElementById('login-password').value = 'admin123';
+      } else {
+        document.getElementById('login-email').value = 'student@campus.com';
+        document.getElementById('login-password').value = 'student123';
+      }
+      showToast(`Pre-filled ${role.toUpperCase()} credentials! Click Sign In.`, 'info');
+    }
+  </script>
+</body>
+</html>

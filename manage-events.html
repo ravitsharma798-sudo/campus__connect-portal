@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Campus Events - CampusConnect Admin</title>
+  
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Shared Navbar Target -->
+  <header id="site-header" class="site-header"></header>
+
+  <!-- Admin Shell -->
+  <div class="admin-shell">
+    <!-- Admin Sidebar Nav -->
+    <aside class="admin-sidebar">
+      <div>
+        <div style="padding: 0.5rem 1rem 1.5rem; border-bottom: 1px solid var(--sidebar-hover); margin-bottom: 1rem;">
+          <div style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-light); letter-spacing: 0.1em; font-weight: 700;">
+            Administration
+          </div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #fff; font-family: var(--font-heading); margin-top: 0.2rem;">
+            Events Control Center
+          </div>
+        </div>
+
+        <ul class="admin-sidebar-menu">
+          <li>
+            <a href="dashboard.html" class="admin-sidebar-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li>
+            <a href="manage-events.html" class="admin-sidebar-link active">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span>Manage Events</span>
+            </a>
+          </li>
+          <li>
+            <a href="participants.html" class="admin-sidebar-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Attendees Roster</span>
+            </a>
+          </li>
+          <li>
+            <a href="events.html" class="admin-sidebar-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10 17 15 12 10 7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+              </svg>
+              <span>Public Portal</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="padding: 1rem; border-top: 1px solid var(--sidebar-hover);">
+        <button onclick="logout()" class="btn btn-outline btn-full btn-sm" style="background: transparent; color: #E2E8F0; border-color: var(--sidebar-hover);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Admin Content Area -->
+    <main id="main-content" class="admin-body">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-family: var(--font-heading); font-size: 1.85rem; font-weight: 800; color: var(--text-main);">
+          Event Publishing & Modification
+        </h1>
+        <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.2rem;">
+          Create new campus events or update details. Live preview updates automatically as you type.
+        </p>
+      </div>
+
+      <!-- Manage Events Split: Form + Live Card Preview -->
+      <div class="manage-events-split" style="margin-bottom: 3rem;">
+        <!-- Left Column: Form -->
+        <div class="form-card">
+          <h2 id="manage-form-heading" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-main);">
+            Create New Campus Event
+          </h2>
+
+          <form id="manage-event-form">
+            <input type="hidden" id="event-id" name="id">
+
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label for="event-title" class="form-label">Event Title *</label>
+              <input type="text" id="event-title" name="title" class="form-control" placeholder="e.g. NextGen Robotics Expo 2026" required>
+            </div>
+
+            <div class="form-grid" style="margin-bottom: 1rem;">
+              <div class="form-group">
+                <label for="event-category" class="form-label">Category *</label>
+                <select id="event-category" name="category" class="form-control" required>
+                  <option value="Fest">Fest</option>
+                  <option value="Workshop">Workshop</option>
+                  <option value="Seminar">Seminar</option>
+                  <option value="Competition">Competition</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Cultural">Cultural</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="event-organizer" class="form-label">Organizing Body</label>
+                <input type="text" id="event-organizer" name="organizer" class="form-control" placeholder="e.g. IEEE Student Branch">
+              </div>
+            </div>
+
+            <div class="form-grid" style="margin-bottom: 1rem;">
+              <div class="form-group">
+                <label for="event-date" class="form-label">Event Date *</label>
+                <input type="date" id="event-date" name="date" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="event-time" class="form-label">Time Horizon *</label>
+                <input type="text" id="event-time" name="time" class="form-control" placeholder="e.g. 10:00 AM - 04:00 PM" required>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label for="event-venue" class="form-label">Event Venue *</label>
+              <input type="text" id="event-venue" name="venue" class="form-control" placeholder="e.g. Main University Auditorium, Level 2" required>
+            </div>
+
+            <div class="form-grid" style="margin-bottom: 1rem;">
+              <div class="form-group">
+                <label for="event-seat-limit" class="form-label">
+                  Seat Capacity * <span class="form-hint">(Max attendance)</span>
+                </label>
+                <input type="number" id="event-seat-limit" name="seatLimit" class="form-control" min="1" max="1000" placeholder="100" required>
+              </div>
+
+              <div class="form-group">
+                <label for="event-deadline" class="form-label">Registration Deadline *</label>
+                <input type="datetime-local" id="event-deadline" name="deadline" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label for="event-banner-url" class="form-label">Banner Image URL</label>
+              <input type="url" id="event-banner-url" name="bannerUrl" class="form-control" placeholder="https://images.unsplash.com/photo-...">
+              <span class="form-hint">Leave blank to use default high-resolution campus banner.</span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label for="event-eligibility" class="form-label">Eligibility Criteria</label>
+              <input type="text" id="event-eligibility" name="eligibility" class="form-control" placeholder="e.g. Open to all branches; 2nd to 4th year">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+              <label for="event-description" class="form-label">Event Description & Summary *</label>
+              <textarea id="event-description" name="description" rows="4" class="form-control" placeholder="Provide event agenda highlights, prerequisites, and key guest speaker details..." required></textarea>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <button type="submit" id="manage-submit-btn" class="btn btn-primary">
+                Publish Event
+              </button>
+              <button type="button" id="cancel-edit-btn" class="btn btn-outline" style="display: none;">
+                Cancel Editing
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right Column: Live Interactive Card Preview -->
+        <div class="preview-sticky-wrap">
+          <div id="event-live-preview-target">
+            <!-- Dynamic Preview Rendered Here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Published Events Table -->
+      <div class="table-card">
+        <div class="table-header-toolbar">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main);">All Portal Events</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Inspect or delete active campus events.</p>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Event Title & ID</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Seats (Booked / Total)</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="manage-events-table-body">
+              <!-- Rendered via dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Shared Footer Target -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar('manage-events');
+      renderFooter();
+      initManageEventsPage();
+    });
+  </script>
+</body>
+</html>

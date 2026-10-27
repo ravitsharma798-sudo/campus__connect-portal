@@ -1,0 +1,120 @@
+/**
+ * ==============================================================================
+ * CAMPUSCONNECT - PRINT STYLESHEET (print.css)
+ * ==============================================================================
+ * University Viva / Technical Overview:
+ * - Purpose: Triggered specifically by @media print or window.print().
+ * - Optimization: Strips non-printable UI chrome (navbars, footers, action buttons,
+ *   background decorative gradients) to conserve printer ink and ensure clean A4 output.
+ * - CSS Paged Media: Uses page-break-inside: avoid to guarantee the ticket slip
+ *   does not split across physical paper sheets or PDF pages.
+ * ==============================================================================
+ */
+
+@media print {
+  /* 1. Hide portal navigation, footer, interactive buttons, and toast notifications */
+  .site-header,
+  .site-footer,
+  .ticket-footer-actions,
+  .toast-container,
+  .modal-overlay,
+  .btn,
+  .skip-link,
+  .notif-wrapper,
+  .breadcrumb-nav {
+    display: none !important;
+  }
+
+  /* 2. Reset document background and typography for crisp black & white printing */
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .main-content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* 3. Ticket Card Print Layout */
+  .ticket-wrapper {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .ticket-card {
+    border: 2px solid #000 !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin: 1cm auto !important;
+    width: 18cm !important;
+  }
+
+  .ticket-header {
+    background: #1E1B4B !important;
+    color: #ffffff !important;
+    padding: 1.5rem !important;
+  }
+
+  .ticket-badge-success {
+    border: 1px solid #10B981 !important;
+    color: #10B981 !important;
+    background: transparent !important;
+  }
+
+  .ticket-body {
+    padding: 1.5rem !important;
+    grid-template-columns: 2fr 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .ticket-divider {
+    border-top: 1px dashed #000 !important;
+    margin: 0.5rem 0 !important;
+  }
+  .ticket-divider::before {
+    display: none !important;
+  }
+  .notch-left, .notch-right {
+    display: none !important;
+  }
+
+  .ticket-qr-container {
+    background: #f8fafc !important;
+    border: 1px solid #ccc !important;
+    padding: 0.75rem !important;
+  }
+
+  #ticket-qrcode {
+    border: 1px solid #000 !important;
+  }
+
+  /* Watermark / Print Stamp */
+  .ticket-card::after {
+    content: "OFFICIAL UNIVERSITY ADMIT PASS • CAMPUSCONNECT";
+    display: block;
+    text-align: center;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #666;
+    padding: 8px;
+    border-top: 1px solid #ddd;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+}

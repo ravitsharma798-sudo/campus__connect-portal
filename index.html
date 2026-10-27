@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusConnect - Campus Event Management & Registration Portal</title>
+  
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Shared Navbar Target -->
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main-content" class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            Official University Event Portal
+          </div>
+          
+          <h1 class="hero-title">
+            Discover. Register. <br>
+            <span class="gradient-text">Participate.</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Experience the pulse of collegiate life. From high-octane hackathons and robotics battles to cultural galas and AI workshops, book your official student admit passes in seconds.
+          </p>
+
+          <!-- Quick Event Search Bar -->
+          <form class="hero-search-wrapper" onsubmit="handleHeroSearch(event)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="hero-search-query" placeholder="Search events by title, topic, or venue (e.g. AI, Hackathon)..." aria-label="Search events">
+            <button type="submit" class="btn btn-primary btn-sm">Find Events</button>
+          </form>
+
+          <!-- Category Chips Strip -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light);">
+              Explore by category
+            </span>
+            <div class="category-chips" style="justify-content: center;">
+              <a href="events.html?category=Fest" class="chip-btn">🎪 Fests</a>
+              <a href="events.html?category=Workshop" class="chip-btn">🛠️ Workshops</a>
+              <a href="events.html?category=Seminar" class="chip-btn">🎓 Seminars</a>
+              <a href="events.html?category=Competition" class="chip-btn">🏆 Competitions</a>
+              <a href="events.html?category=Sports" class="chip-btn">⚽ Sports</a>
+              <a href="events.html?category=Cultural" class="chip-btn">🎭 Cultural</a>
+            </div>
+          </div>
+
+          <!-- Dynamic Statistics Strip -->
+          <div class="stats-strip">
+            <div class="stat-item">
+              <div class="stat-icon primary">📅</div>
+              <div>
+                <div class="stat-number" id="home-stat-events">8+</div>
+                <div class="stat-label">Active Campus Events</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon accent">🎟️</div>
+              <div>
+                <div class="stat-number" id="home-stat-regs">470+</div>
+                <div class="stat-label">Passes Issued</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon success">🎓</div>
+              <div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Free Student Entry</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon info">🏛️</div>
+              <div>
+                <div class="stat-number">12</div>
+                <div class="stat-label">Academic Departments</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Events Showcase -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Featured Campus Events</h2>
+            <p class="section-subtitle">Top-rated seminars, workshops, and competitions happening this month.</p>
+          </div>
+          <a href="events.html" class="btn btn-outline-primary btn-sm">
+            View All Events →
+          </a>
+        </div>
+
+        <div id="featured-events-grid" class="events-grid">
+          <!-- Dynamically populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" style="background: #fff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+      <div class="container">
+        <div style="text-align: center; max-width: 600px; margin: 0 auto 2rem;">
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-subtitle">Effortless event registration in three simple steps.</p>
+        </div>
+
+        <div class="how-it-works-grid">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <h3 class="step-title">Explore & Filter</h3>
+            <p class="step-desc">
+              Browse campus fests, workshops, and competitions with real-time seat availability and eligibility requirements.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <h3 class="step-title">One-Click Register</h3>
+            <p class="step-desc">
+              Provide your 8-digit student registration number and department. Concurrency locks ensure your seat is guaranteed.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <h3 class="step-title">Get Digital Admit Pass</h3>
+            <p class="step-desc">
+              Download your official event ticket equipped with a scannable verification QR code and print-friendly styling.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-banner-box">
+          <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem;">
+            Organizing a Campus Event?
+          </h2>
+          <p style="font-size: 1.05rem; opacity: 0.9; max-width: 620px; margin: 0 auto 2rem; line-height: 1.6;">
+            Are you a student club head or faculty advisor? Manage registrations, view live attendee rosters, and export official attendance sheets with the CampusConnect Admin Console.
+          </p>
+          <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <a href="login.html" class="btn btn-accent btn-lg">Admin / Organizer Sign In</a>
+            <a href="events.html" class="btn btn-outline btn-lg" style="background: rgba(255, 255, 255, 0.1); color: #fff; border-color: rgba(255, 255, 255, 0.25);">
+              Explore Events
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer Target -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/events.js"></script>
+  <script>
+    // Initialize Home Page View
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar('home');
+      renderFooter();
+
+      // Render Featured Events (First 6 events)
+      const events = getEvents();
+      const featuredContainer = document.getElementById('featured-events-grid');
+      if (featuredContainer && events.length > 0) {
+        featuredContainer.innerHTML = events.slice(0, 6).map(renderEventCard).join('');
+      }
+
+      // Update Live Home Stats
+      const regs = getRegistrations();
+      const activeRegs = regs.filter(r => r.status === 'confirmed');
+      const statEvents = document.getElementById('home-stat-events');
+      const statRegs = document.getElementById('home-stat-regs');
+      if (statEvents) statEvents.textContent = `${events.length}+`;
+      if (statRegs) statRegs.textContent = `${activeRegs.length}+`;
+    });
+
+    function handleHeroSearch(e) {
+      e.preventDefault();
+      const query = document.getElementById('hero-search-query').value.trim();
+      window.location.href = `events.html?search=${encodeURIComponent(query)}`;
+    }
+  </script>
+</body>
+</html>

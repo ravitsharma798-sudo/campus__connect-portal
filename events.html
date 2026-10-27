@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Campus Events - CampusConnect</title>
+  
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Shared Navbar Target -->
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main-content" class="main-content">
+    <section class="section" style="padding: 2.5rem 0;">
+      <div class="container">
+        <!-- Page Header -->
+        <div style="margin-bottom: 2rem;">
+          <h1 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 800; color: var(--text-main);">
+            Campus Events Directory
+          </h1>
+          <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.35rem;">
+            Explore hackathons, guest lectures, cultural nights, and sporting tournaments with real-time seat tracking.
+          </p>
+        </div>
+
+        <!-- Filter & Search Toolbar Card -->
+        <div class="filter-bar-card">
+          <!-- Top Row: Search & Dropdowns -->
+          <div class="filter-row-top">
+            <div class="filter-input-group">
+              <span class="filter-icon-left">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </span>
+              <input 
+                type="text" 
+                id="catalog-search-input" 
+                class="filter-control" 
+                placeholder="Search events by title, keyword, or venue..."
+                aria-label="Search events"
+              >
+            </div>
+
+            <!-- Date Filter -->
+            <div>
+              <select id="filter-date" class="filter-control" aria-label="Filter by date">
+                <option value="all">All Dates</option>
+                <option value="upcoming" selected>Upcoming Events</option>
+                <option value="week">Next 7 Days</option>
+              </select>
+            </div>
+
+            <!-- Availability Filter -->
+            <div>
+              <select id="filter-availability" class="filter-control" aria-label="Filter by availability">
+                <option value="all">All Availability</option>
+                <option value="available">Seats Available</option>
+                <option value="full">Full Only</option>
+              </select>
+            </div>
+
+            <!-- Sort By -->
+            <div>
+              <select id="sort-events" class="filter-control" aria-label="Sort events">
+                <option value="date-asc">Date: Soonest First</option>
+                <option value="date-desc">Date: Latest First</option>
+                <option value="seats-desc">Seats: Most Left</option>
+                <option value="seats-asc">Seats: Least Left</option>
+                <option value="title-asc">Title: A to Z</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Bottom Row: Category Chips -->
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+            <div class="category-chips">
+              <button class="chip-btn active" data-category="all">All Categories</button>
+              <button class="chip-btn" data-category="Fest">🎪 Fest</button>
+              <button class="chip-btn" data-category="Workshop">🛠️ Workshop</button>
+              <button class="chip-btn" data-category="Seminar">🎓 Seminar</button>
+              <button class="chip-btn" data-category="Competition">🏆 Competition</button>
+              <button class="chip-btn" data-category="Sports">⚽ Sports</button>
+              <button class="chip-btn" data-category="Cultural">🎭 Cultural</button>
+            </div>
+            <div id="events-count-display" style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">
+              Loading events...
+            </div>
+          </div>
+        </div>
+
+        <!-- Events Grid -->
+        <div id="events-catalog-grid" class="events-grid">
+          <!-- Populated dynamically via events.js -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer Target -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/events.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar('events');
+      renderFooter();
+      initEventsCatalog();
+    });
+  </script>
+</body>
+</html>

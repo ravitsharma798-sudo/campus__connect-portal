@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CampusConnect Automated Test Suite</title>
+</head>
+<body style="font-family: sans-serif; padding: 20px;">
+  <h1>CampusConnect Automated Verification Suite</h1>
+  <div id="test-results">Running tests...</div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/registration.js"></script>
+
+  <script>
+    const results = [];
+    function assert(name, condition, details = '') {
+      results.push({ name, passed: Boolean(condition), details });
+      console.log((condition ? 'PASS: ' : 'FAIL: ') + name + (details ? ' (' + details + ')' : ''));
+    }
+
+    try {
+      // Test 1: Seed data initialization
+      initializeStorage();
+      const events = getEvents();
+      assert('Seed events count equals 8', events.length === 8, `Found ${events.length} events`);
+
+      // Test 2: Event initial state
+      const hackathon = getEventById('evt-103');
+      assert('HackTheCampus (evt-103) is initially FULL', isEventFull(hackathon), `Seats left: ${getSeatsLeft(hackathon)}`);
+
+      const aiWorkshop = getEventById('evt-102');
+      const initialAiSeats = getSeatsLeft(aiWorkshop);
+      assert('AI Workshop has 2 seats left initially', initialAiSeats === 2, `Seats left: ${initialAiSeats}`);
+
+      // Test 3: Concurrency & Fill until full
+      // Register seat 59
+      const reg1 = registerStudent({
+        eventId: 'evt-102',
+        studentName: 'Test Student Alpha',
+        regNumber: '88880001',
+        email: 'alpha@campus.edu',
+        phone: '9988776655',
+        department: 'Computer Science',
+        year: '2nd Year'
+      });
+      assert('Register seat 59 succeeds', reg1.success === true, reg1.regId);
+      assert('1 seat left after seat 59', getSeatsLeft(getEventById('evt-102')) === 1);
+
+      // Register seat 60 (Event now reaches 60/60 full)
+      const reg2 = registerStudent({
+        eventId: 'evt-102',
+        studentName: 'Test Student Beta',
+        regNumber: '88880002',
+        email: 'beta@campus.edu',
+        phone: '9988776656',
+        department: 'Information Technology',
+        year: '3rd Year'
+      });
+      assert('Register seat 60 succeeds', reg2.success === true, reg2.regId);
+      assert('Event is now FULL (0 seats left)', isEventFull(getEventById('evt-102')));
+
+      // Test 4: Attempt registering when event is full (Must block!)
+      const reg3 = registerStudent({
+        eventId: 'evt-102',
+        studentName: 'Test Student Gamma',
+        regNumber: '88880003',
+        email: 'gamma@campus.edu',
+        phone: '9988776657',
+        department: 'Electronics',
+        year: '1st Year'
+      });
+      assert('Registration when event is full is BLOCKED', reg3.success === false, reg3.message);
+
+      // Test 5: Duplicate registration prevention
+      // Try registering Student Alpha again for evt-101 (TechFest)
+      const regDup1 = registerStudent({
+        eventId: 'evt-101',
+        studentName: 'Test Student Alpha',
+        regNumber: '88880001',
+        email: 'alpha@campus.edu',
+        phone: '9988776655',
+        department: 'Computer Science',
+        year: '2nd Year'
+      });
+      assert('First registration for TechFest succeeds', regDup1.success === true, regDup1.regId);
+
+      const regDup2 = registerStudent({
+        eventId: 'evt-101',
+        studentName: 'Test Student Alpha Same',
+        regNumber: '88880001', // duplicate regNumber!
+        email: 'different_email@campus.edu',
+        phone: '9988776655',
+        department: 'Computer Science',
+        year: '2nd Year'
+      });
+      assert('Duplicate registration with same Reg Number is REJECTED', regDup2.success === false, regDup2.message);
+
+      const regDup3 = registerStudent({
+        eventId: 'evt-101',
+        studentName: 'Test Student Alpha Different Reg',
+        regNumber: '88880099',
+        email: 'alpha@campus.edu', // duplicate email!
+        phone: '9988776655',
+        department: 'Computer Science',
+        year: '2nd Year'
+      });
+      assert('Duplicate registration with same Email is REJECTED', regDup3.success === false, regDup3.message);
+
+      // Test 6: Cancel registration and verify seat returns
+      const seatsBeforeCancel = getSeatsLeft(getEventById('evt-102'));
+      assert('AI Workshop has 0 seats before cancellation', seatsBeforeCancel === 0);
+
+      const cancelRes = cancelRegistration(reg2.regId);
+      assert('Cancel registration returns success', cancelRes.success === true, cancelRes.message);
+
+      const seatsAfterCancel = getSeatsLeft(getEventById('evt-102'));
+      assert('AI Workshop seat returned after cancellation (1 seat available)', seatsAfterCancel === 1);
+      assert('AI Workshop is no longer full', !isEventFull(getEventById('evt-102')));
+
+      // Test 7: Persistence in localStorage
+      const storedRegs = JSON.parse(localStorage.getItem(STORAGE_KEYS.REGISTRATIONS));
+      const cancelledItem = storedRegs.find(r => r.id === reg2.regId);
+      assert('Cancelled registration persists in localStorage with status=cancelled', cancelledItem && cancelledItem.status === 'cancelled');
+
+      // Test 8: Authentication tests
+      const studentLogin = login('student@campus.com', 'student123', 'student');
+      assert('Demo student login succeeds', studentLogin.success === true && studentLogin.user.role === 'student');
+
+      const adminLogin = login('admin@campus.com', 'admin123', 'admin');
+      assert('Demo admin login succeeds', adminLogin.success === true && adminLogin.user.role === 'admin');
+      assert('isAdmin() returns true for admin', isAdmin() === true);
+
+      // Render summary on screen
+      const passedCount = results.filter(r => r.passed).length;
+      const totalCount = results.length;
+      const html = `
+        <h2>Summary: ${passedCount} / ${totalCount} Passed</h2>
+        <ul style="line-height: 1.8;">
+          ${results.map(r => `
+            <li style="color: ${r.passed ? 'green' : 'red'};">
+              <strong>${r.passed ? '✓' : '✗'} ${r.name}</strong> ${r.details ? '— ' + r.details : ''}
+            </li>
+          `).join('')}
+        </ul>
+      `;
+      document.getElementById('test-results').innerHTML = html;
+      window.__TEST_REPORT__ = { passedCount, totalCount, results };
+    } catch (err) {
+      console.error('Test runner fatal exception:', err);
+      document.getElementById('test-results').innerHTML = `<h2 style="color:red">Error: ${err.message}</h2>`;
+      window.__TEST_REPORT__ = { error: err.message };
+    }
+  </script>
+</body>
+</html>

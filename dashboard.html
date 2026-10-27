@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - CampusConnect</title>
+  
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Chart.js (Allowed CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+  <!-- Shared Navbar Target -->
+  <header id="site-header" class="site-header"></header>
+
+  <!-- Administrative Split Shell -->
+  <div class="admin-shell">
+    <!-- Admin Sidebar Nav -->
+    <aside class="admin-sidebar">
+      <div>
+        <div style="padding: 0.5rem 1rem 1.5rem; border-bottom: 1px solid var(--sidebar-hover); margin-bottom: 1rem;">
+          <div style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-light); letter-spacing: 0.1em; font-weight: 700;">
+            Administration
+          </div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #fff; font-family: var(--font-heading); margin-top: 0.2rem;">
+            Events Control Center
+          </div>
+        </div>
+
+        <ul class="admin-sidebar-menu">
+          <li>
+            <a href="dashboard.html" class="admin-sidebar-link active">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li>
+            <a href="manage-events.html" class="admin-sidebar-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span>Manage Events</span>
+            </a>
+          </li>
+          <li>
+            <a href="participants.html" class="admin-sidebar-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Attendees Roster</span>
+            </a>
+          </li>
+          <li>
+            <a href="events.html" class="admin-sidebar-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10 17 15 12 10 7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+              </svg>
+              <span>Public Portal</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="padding: 1rem; border-top: 1px solid var(--sidebar-hover);">
+        <button onclick="logout()" class="btn btn-outline btn-full btn-sm" style="background: transparent; color: #E2E8F0; border-color: var(--sidebar-hover);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Admin Content Area -->
+    <main id="main-content" class="admin-body">
+      <!-- Welcome Header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1 style="font-family: var(--font-heading); font-size: 1.85rem; font-weight: 800; color: var(--text-main);">
+            Campus Analytics & Live Overview
+          </h1>
+          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Real-time event booking velocity, category distribution, and capacity utilization.
+          </p>
+        </div>
+        <div>
+          <a href="manage-events.html" class="btn btn-primary btn-sm">
+            + Create New Event
+          </a>
+        </div>
+      </div>
+
+      <!-- 4 Top Metric Summary Cards -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div>
+            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); font-weight: 700;">Total Events</div>
+            <div id="stat-total-events" style="font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--text-main); margin-top: 0.2rem;">0</div>
+          </div>
+          <div class="stat-icon primary">📅</div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div>
+            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); font-weight: 700;">Total Registrations</div>
+            <div id="stat-total-regs" style="font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--primary); margin-top: 0.2rem;">0</div>
+          </div>
+          <div class="stat-icon accent">🎟️</div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div>
+            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); font-weight: 700;">Seats Filled %</div>
+            <div id="stat-seats-percent" style="font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--success); margin-top: 0.2rem;">0%</div>
+          </div>
+          <div class="stat-icon success">📊</div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div>
+            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); font-weight: 700;">Upcoming Events</div>
+            <div id="stat-upcoming-events" style="font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--text-main); margin-top: 0.2rem;">0</div>
+          </div>
+          <div class="stat-icon info">⏰</div>
+        </div>
+      </div>
+
+      <!-- Chart.js Visualization Cards -->
+      <div class="admin-charts-grid">
+        <!-- Bar Chart: Registrations Per Event -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">Registrations vs Capacity</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Comparing current bookings against maximum event seat limit.</p>
+            </div>
+            <span class="badge badge-fest">Live Sync</span>
+          </div>
+          <div class="chart-canvas-container">
+            <canvas id="chart-registrations-bar"></canvas>
+          </div>
+        </div>
+
+        <!-- Donut Chart: Events by Category -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">Category Breakdown</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Distribution across university event types.</p>
+            </div>
+          </div>
+          <div class="chart-canvas-container">
+            <canvas id="chart-category-donut"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Events Capacity & Status Table -->
+      <div class="table-card">
+        <div class="table-header-toolbar">
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">Event Seat Capacity & Status</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Real-time monitoring of campus events and registration fill rates.</p>
+          </div>
+          <a href="participants.html" class="btn btn-outline btn-sm">
+            View All Attendees →
+          </a>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Event Title & Venue</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Seats (Booked / Total)</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-recent-events-tbody">
+              <!-- Rendered via dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Shared Footer Target -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar('dashboard');
+      renderFooter();
+      initAdminDashboard();
+    });
+  </script>
+</body>
+</html>

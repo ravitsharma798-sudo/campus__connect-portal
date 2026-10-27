@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admit Ticket Confirmation - CampusConnect</title>
+  
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Dedicated Print Stylesheet -->
+  <link rel="stylesheet" href="css/print.css" media="print">
+
+  <!-- QRCode.js Library (Allowed CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+  <!-- Shared Navbar Target -->
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main-content" class="main-content">
+    <div class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+      <!-- Success Header Banner -->
+      <div style="text-align: center; max-width: 580px; margin: 0 auto 1.5rem;">
+        <div style="width: 54px; height: 54px; background: var(--success-bg); color: var(--success); border-radius: var(--radius-full); display: grid; place-items: center; margin: 0 auto 0.75rem; font-size: 1.5rem;">
+          ✓
+        </div>
+        <h1 style="font-family: var(--font-heading); font-size: 1.85rem; font-weight: 800; color: var(--text-main);">
+          Registration Confirmed!
+        </h1>
+        <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.25rem;">
+          Your seat has been reserved. Please present this official admit slip and student ID card at the venue entrance.
+        </p>
+      </div>
+
+      <!-- Ticket Slip Card Target (Populated by initConfirmationPage in registration.js) -->
+      <div id="confirmation-ticket-root">
+        <div style="text-align: center; padding: 3rem 0; color: var(--text-muted);">
+          Rendering digital admit ticket...
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Shared Footer Target -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/registration.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar('');
+      renderFooter();
+      initConfirmationPage();
+    });
+  </script>
+</body>
+</html>

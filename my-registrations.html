@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Registrations - CampusConnect</title>
+  
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Shared Navbar Target -->
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main-content" class="main-content">
+    <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 4rem;">
+      <!-- Page Heading -->
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1 style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--text-main);">
+            My Event Passes & Bookings
+          </h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem;">
+            Inspect your digital admit slips, track booking statuses, or release seats if your schedule changes.
+          </p>
+        </div>
+        <a href="events.html" class="btn btn-outline-primary btn-sm">
+          Browse Events Directory
+        </a>
+      </div>
+
+      <!-- Student Lookup Filter Toolbar -->
+      <div class="form-card" style="padding: 1.25rem; margin-bottom: 2rem;">
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 240px; position: relative;">
+            <input 
+              type="text" 
+              id="student-lookup-input" 
+              class="form-control" 
+              placeholder="Search by 8-digit Reg. No. (e.g. 20241088) or Email..."
+              aria-label="Student lookup identifier"
+            >
+          </div>
+          <button id="student-lookup-btn" class="btn btn-primary btn-sm" style="padding: 0.75rem 1.25rem;">
+            Find My Passes
+          </button>
+        </div>
+        <div id="active-lookup-student" style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-top: 0.5rem;"></div>
+      </div>
+
+      <!-- Registrations List Container -->
+      <div id="my-registrations-list">
+        <!-- Rendered dynamically by initMyRegistrationsPage in registration.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Shared Footer Target -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/registration.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar('my-registrations');
+      renderFooter();
+      initMyRegistrationsPage();
+    });
+  </script>
+</body>
+</html>
